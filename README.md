@@ -1,70 +1,185 @@
-# Getting Started with Create React App
+![blog.png](./src/blog.png)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+I'm currently (April 2022) creating a side-project using ReactJs. I have taken inspiration from various existing popular websites like Twitter, Facebook, Trello, etc. I was trying to create an edit-profile UI like Twitter. When you click the Edit Profile button, a pop-up window opens and the URL changes. But the previous page remains in the background. After closing the popup, it goes back to the previous page.
 
-## Available Scripts
+![twitter.gif](https://cdn.hashnode.com/res/hashnode/image/upload/v1649944317683/4rbTMUAoj.gif)
 
-In the project directory, you can run:
+I had no idea how to do it. I searched it on Google, but I found some old tutorials. Note: I am using React Router V6. Finally, I did it. Now, I will show you how I did it.
 
-### `npm start`
+![soalig.gif](https://cdn.hashnode.com/res/hashnode/image/upload/v1649945258156/XQHc834qX.gif)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Let's Start
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+First thing first, create a react app and install react-router-dom.
 
-### `npm test`
+```
+npx create-react-app my-app
+cd my-app
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+npm i react-router-dom
+```
 
-### `npm run build`
+I have deleted all of the test files. You can keep them if you want. Create a "Components" folder. Here we will put our homepage and model. Create two files named `Modal.js` and `Main.js` inside the "Components" folder. `Main.js` is our homepage.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Main.js
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+import { Link, useLocation } from "react-router-dom";
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+export const Main = () => {
+  const location = useLocation();
+  return (
+    <div>
+      <h2>Create contextual modal navigation</h2>
+      <Link to="/modal" state={{ background: location }}>
+        Open Modal
+      </Link>
+    </div>
+  );
+};
 
-### `npm run eject`
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+`Main.js` is a react-arrow-functional-component. We have two elements here `<h2/>` and `<Link />`. Note: The `<Link />` element contains an additional state attribute. It contains an object. We will pass background as key and location as value. We will use this object in the future.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Modal.js
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```
+import { useNavigate } from "react-router-dom";
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+export const Modal = () => {
+  const navigate = useNavigate();
+  return (
+    <div className="modalDiv">
+      <div className="modal">
+        <h3>Modal</h3>
+        <button onClick={() => navigate(-1)}>Close</button>
+      </div>
+    </div>
+  );
+};
 
-## Learn More
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### App.css
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+.App {
+  text-align: center;
+}
 
-### Code Splitting
+.modalDiv {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  background-color: rgba(91, 112, 131, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal {
+  width: 350px;
+  height: 200px;
+  background-color: white;
+  border-radius: 5px;
+}
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```
 
-### Analyzing the Bundle Size
+### Index.js
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import { BrowserRouter as Router } from "react-router-dom";
 
-### Making a Progressive Web App
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <Router>
+    <App />
+  </Router>
+);
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```
 
-### Advanced Configuration
+We have wrapped `<App />` with `<Router />` inside the `Index.js` file instead of placing it on the `App.js` file. This is because we will use the useLocation hook used by the React Router in the App.js file. We're not allowed to place any hook used by the React router outside of `<Router />`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### App.js
 
-### Deployment
+```
+import "./App.css";
+import { Route, Routes, useLocation } from "react-router-dom";
+import { Main } from "./components/Main";
+import { Modal } from "./components/Modal";
+function App() {
+  const location = useLocation();
+  const background = location.state && location.state.background;
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+  return (
+    <div className="App">
+      <Routes location={background || location}>
+        <Route path="/" element={<Main />}>
+          <Route path="modal" element={<Modal />} />
+        </Route>
+      </Routes>
+      {background && (
+        <Routes>
+          <Route path="modal" element={<Modal />} />
+        </Routes>
+      )}
+    </div>
+  );
+}
 
-### `npm run build` fails to minify
+export default App;
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
+
+When we click on the open-modal to open the modal, we do not want to show only the modal with a blank page in the background. We want to show the modal on top of the previous page.
+
+So we need to pass the previous location object to `<Routes />` instead of using the current location object by default. Thus `<Routes />` thinks we are on the same page (previous location). For example, we are on the home page `http://localhost:3000/`. When we click on the link to open the modal, the position changes to `https://localhost:3000/modal` but `<Routes />` thinks the position has never changed.
+
+Remember? We passed a state attribute in the `main.js` file, which had a background object. If there is a background object, upon clicking the link to open the modal, the model will be conditionally shown by the second `<Routes />` container, and the homepage will be shown as background by the first `<Routes />` container.
+
+But when you directly visit the modal page, we will only see the homepage even though we have added the modal route in the first <Routes /> container. You can show the model or any other component for the /model path by simply adding the `<Outlet />` element to the `Main.js` file. For this demo, we will show the model.
+
+### Main.js
+
+#### Add `<Outlet/>`
+
+```
+import { Link, Outlet, useLocation } from "react-router-dom";
+
+export const Main = () => {
+  const location = useLocation();
+  return (
+    <div>
+      <h2>Create contextual modal navigation</h2>
+      <Link to="modal" state={{ background: location }}>
+        Open Modal
+      </Link>
+      // Here is the <Outlet/>
+      <Outlet />
+    </div>
+  );
+};
+```
+
+![demo.gif](https://cdn.hashnode.com/res/hashnode/image/upload/v1650027952727/5y3_wxYoW.gif)
+
+I hope, I was able to explain this. If you have any questions or suggestions about this blog, reach out to me via [Twitter](https://www.twitter.com/devmdmamun).
+
+#### [Live Demo.](https://dreamy-macaron-0c86da.netlify.app/modal)
+
+#### [Source code on GitHub](https://github.com/devmdmamun/contextual-modal-navigation-with-react-router)
+
+### References
+
+[Official React Router modal example](https://reactrouter.com/docs/en/v6/examples/modal)
+
+[Building a modal module for React with React-Router V5 by Doğacan Bilgili](https://blog.logrocket.com/building-a-modal-module-for-react-with-react-router/)
