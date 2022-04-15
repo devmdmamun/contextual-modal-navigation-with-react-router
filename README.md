@@ -2,11 +2,15 @@
 
 I'm currently (April 2022) creating a side-project using ReactJs. I have taken inspiration from various existing popular websites like Twitter, Facebook, Trello, etc. I was trying to create an edit-profile UI like Twitter. When you click the Edit Profile button, a pop-up window opens and the URL changes. But the previous page remains in the background. After closing the popup, it goes back to the previous page.
 
-![twitter.gif](https://cdn.hashnode.com/res/hashnode/image/upload/v1649944317683/4rbTMUAoj.gif)
+<p align="center">
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1649944317683/4rbTMUAoj.gif" />
+</p>
 
 I had no idea how to do it. I searched it on Google, but I found some old tutorials. Note: I am using React Router V6. Finally, I did it. Now, I will show you how I did it.
 
-![soalig.gif](https://cdn.hashnode.com/res/hashnode/image/upload/v1649945258156/XQHc834qX.gif)
+<p align="center">
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1649945258156/XQHc834qX.gif" />
+</p>
 
 ## Let's Start
 
@@ -170,7 +174,9 @@ export const Main = () => {
 };
 ```
 
-![demo.gif](https://cdn.hashnode.com/res/hashnode/image/upload/v1650027952727/5y3_wxYoW.gif)
+<p align="center">
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1650027952727/5y3_wxYoW.gif" />
+</p>
 
 I hope, I was able to explain this. If you have any questions or suggestions about this blog, reach out to me via [Twitter](https://www.twitter.com/devmdmamun).
 
