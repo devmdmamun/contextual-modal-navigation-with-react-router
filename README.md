@@ -174,7 +174,7 @@ export const Main = () => {
 
 I hope, I was able to explain this. If you have any questions or suggestions about this blog, reach out to me via [Twitter](https://www.twitter.com/devmdmamun).
 
-#### [Live Demo.](https://dreamy-macaron-0c86da.netlify.app/modal)
+#### [Live Demo.](https://dreamy-macaron-0c86da.netlify.app)
 
 #### [Source code on GitHub](https://github.com/devmdmamun/contextual-modal-navigation-with-react-router)
 
